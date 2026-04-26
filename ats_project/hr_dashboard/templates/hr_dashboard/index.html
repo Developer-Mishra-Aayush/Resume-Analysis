@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'hr_dashboard/css/style.css' %}">
+</head>
+<body>
+    <div id="screen-hr" class="screen">
+<div class="app-shell">
+  <aside class="sidebar" id="hr-sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-icon" style="background:var(--purple)">H</div>
+      <div><div class="sidebar-brand-name">Resume ATS</div><div class="sidebar-brand-role">HR Portal</div></div>
+    </div>
+    <nav class="sidebar-nav">
+      <button class="nav-link active" onclick="hNav(this,'h-dashboard')"><span class="nav-icon">📊</span>Dashboard</button>
+      <button class="nav-link" onclick="hNav(this,'h-detail')"><span class="nav-icon">👤</span>Candidate Detail</button>
+      <button class="nav-link" onclick="hNav(this,'h-jd')"><span class="nav-icon">📋</span>Job Descriptions</button>
+      <button class="nav-link" onclick="hNav(this,'h-analytics')"><span class="nav-icon">📈</span>Analytics</button>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-pill">
+        <div class="user-avatar" style="background:var(--purple-l);color:var(--purple)">SR</div>
+        <div><div class="user-name">Sarah Recruiter</div><div class="user-email">sarah@company.com</div></div>
+      </div>
+      <button class="btn btn-ghost btn-full btn-sm mt-8" onclick="logout()" style="justify-content:flex-start">🚪 Logout</button>
+    </div>
+  </aside>
+  <div class="main-content">
+
+    <!-- H: Dashboard -->
+    <div id="h-dashboard" class="hrpage" style="display:flex;flex-direction:column;flex:1">
+      <div class="topbar">
+        <div><div class="topbar-title">Recruiter Dashboard</div><div class="topbar-sub">All submissions ranked by ATS score.</div></div>
+        <div class="topbar-actions"><button class="btn btn-secondary btn-sm" onclick="dlCSV()">⬇ Export CSV</button></div>
+      </div>
+      <div class="page">
+        <div class="stat-grid mb-24">
+          <div class="stat-card"><div class="stat-label">Total Submissions</div><div class="stat-value">24</div><div class="stat-sub">across all JDs</div></div>
+          <div class="stat-card"><div class="stat-label">Avg ATS Score</div><div class="stat-value" style="color:var(--amber)">61</div><div class="stat-sub">platform avg</div></div>
+          <div class="stat-card"><div class="stat-label">Top Score</div><div class="stat-value" style="color:var(--green)">94</div><div class="stat-sub">this week</div></div>
+          <div class="stat-card"><div class="stat-label">Active JDs</div><div class="stat-value">4</div><div class="stat-sub">open positions</div></div>
+        </div>
+        <div class="card mb-16">
+          <div class="row" style="gap:12px;flex-wrap:wrap">
+            <div style="flex:1;min-width:150px"><label>Filter by JD</label><select onchange="filterDash()"><option>All JDs</option><option>Senior Django Developer</option><option>Backend Engineer</option><option>Full Stack Developer</option></select></div>
+            <div style="min-width:110px"><label>Min Score</label><input type="number" placeholder="e.g. 60" min="0" max="100" onchange="filterDash()" /></div>
+            <div style="min-width:120px"><label>Date From</label><input type="text" placeholder="2025-01-01" /></div>
+            <div style="min-width:120px"><label>Date To</label><input type="text" placeholder="2025-01-31" /></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>#</th><th>Candidate</th><th>Job Description</th><th>ATS Score</th><th>Experience</th><th>Submitted</th><th></th></tr></thead>
+              <tbody>
+                <tr><td class="fw-600 text-muted">1</td><td><div class="fw-600">Raj Patel</div><div class="text-xs text-muted">raj@email.com</div></td><td>Senior Django Dev</td><td><div class="score-bar-wrap"><div class="score-bar"><div class="score-bar-fill" style="width:94%;background:var(--green)"></div></div><span class="score-num" style="color:var(--green)">94</span></div></td><td>3 yrs</td><td class="text-muted">Jan 14</td><td><button class="btn btn-secondary btn-sm" onclick="hNav(null,'h-detail')">View</button></td></tr>
+                <tr><td class="fw-600 text-muted">2</td><td><div class="fw-600">Priya Singh</div><div class="text-xs text-muted">priya@email.com</div></td><td>Senior Django Dev</td><td><div class="score-bar-wrap"><div class="score-bar"><div class="score-bar-fill" style="width:82%;background:var(--green)"></div></div><span class="score-num" style="color:var(--green)">82</span></div></td><td>2 yrs</td><td class="text-muted">Jan 14</td><td><button class="btn btn-secondary btn-sm" onclick="hNav(null,'h-detail')">View</button></td></tr>
+                <tr><td class="fw-600 text-muted">3</td><td><div class="fw-600">Amit Kumar</div><div class="text-xs text-muted">amit@email.com</div></td><td>Backend Engineer</td><td><div class="score-bar-wrap"><div class="score-bar"><div class="score-bar-fill" style="width:71%;background:var(--amber)"></div></div><span class="score-num" style="color:var(--amber)">71</span></div></td><td>1.5 yrs</td><td class="text-muted">Jan 13</td><td><button class="btn btn-secondary btn-sm" onclick="hNav(null,'h-detail')">View</button></td></tr>
+                <tr><td class="fw-600 text-muted">4</td><td><div class="fw-600">Neha Sharma</div><div class="text-xs text-muted">neha@email.com</div></td><td>Full Stack Dev</td><td><div class="score-bar-wrap"><div class="score-bar"><div class="score-bar-fill" style="width:58%;background:var(--amber)"></div></div><span class="score-num" style="color:var(--amber)">58</span></div></td><td>8 months</td><td class="text-muted">Jan 12</td><td><button class="btn btn-secondary btn-sm" onclick="hNav(null,'h-detail')">View</button></td></tr>
+                <tr><td class="fw-600 text-muted">5</td><td><div class="fw-600">Dev Mehta</div><div class="text-xs text-muted">dev@email.com</div></td><td>Data Engineer</td><td><div class="score-bar-wrap"><div class="score-bar"><div class="score-bar-fill" style="width:38%;background:var(--red)"></div></div><span class="score-num" style="color:var(--red)">38</span></div></td><td>4 months</td><td class="text-muted">Jan 11</td><td><button class="btn btn-secondary btn-sm" onclick="hNav(null,'h-detail')">View</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="{% static 'hr_dashboard/js/script.js' %}"></script>
+</body>
+</html>

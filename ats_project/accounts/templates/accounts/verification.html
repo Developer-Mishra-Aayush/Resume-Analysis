@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification</title>
+    <link rel="stylesheet" href="{% static 'accounts/css/verification.css' %}">
+</head>
+<body>
+
+<div id="screen-otp" class="screen">
+
+<div class="auth-wrap">
+<div class="auth-card">
+
+  <div class="auth-logo">
+    <div class="auth-logo-icon">A</div>
+    <div>
+      <div class="auth-logo-text">Resume ATS</div>
+      <div class="auth-logo-sub">Check your inbox</div>
+    </div>
+  </div>
+
+  <h2 class="auth-title">Enter OTP</h2>
+  <p class="auth-sub">We sent a 6-digit code to your email.</p>
+
+  {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+  {% endif %}
+
+  <form method="POST" action="{% url 'verify_otp' %}">
+    {% csrf_token %}
+
+    <div class="otp-wrap">
+      <input class="otp-box" name="otp1" maxlength="1" type="text" inputmode="numeric" required />
+      <input class="otp-box" name="otp2" maxlength="1" type="text" inputmode="numeric" required />
+      <input class="otp-box" name="otp3" maxlength="1" type="text" inputmode="numeric" required />
+      <input class="otp-box" name="otp4" maxlength="1" type="text" inputmode="numeric" required />
+      <input class="otp-box" name="otp5" maxlength="1" type="text" inputmode="numeric" required />
+      <input class="otp-box" name="otp6" maxlength="1" type="text" inputmode="numeric" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-full" style="margin-bottom:10px">
+      Verify & Login
+    </button>
+
+  </form>
+
+  <form method="POST" action="{% url 'resend_otp' %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-ghost btn-full">
+      Resend OTP
+    </button>
+  </form>
+
+  {% comment %} <button class="btn btn-ghost btn-full mt-8" onclick="window.location.href='{% url 'login' %}'">
+    ← Back
+  </button> {% endcomment %}
+
+</div>
+</div>
+
+</div>
+<script src="{% static 'accounts/js/script.js' %}"></script>
+</body>
+</html>
