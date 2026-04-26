@@ -27,7 +27,7 @@
           </p>
 
           <!-- ✅ FORM START -->
-          <form method="POST" action="{% url 'login_view' %}">
+          <form method="POST" action="{% url 'accounts:login_view' %}">
             {% csrf_token %}
 
             {% if error %}

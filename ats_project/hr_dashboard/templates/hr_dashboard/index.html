@@ -24,9 +24,11 @@
     <div class="sidebar-footer">
       <div class="user-pill">
         <div class="user-avatar" style="background:var(--purple-l);color:var(--purple)">SR</div>
-        <div><div class="user-name">Sarah Recruiter</div><div class="user-email">sarah@company.com</div></div>
+        <div><div class="user-name">{{r.full_name}}</div><div class="user-email">{{r.email}}</div></div>
       </div>
-      <button class="btn btn-ghost btn-full btn-sm mt-8" onclick="logout()" style="justify-content:flex-start">🚪 Logout</button>
+      <a href="{% url 'logout' %}" class="btn btn-ghost btn-full btn-sm mt-8" style="justify-content:flex-start; text-decoration:none;">
+    🚪 Logout
+</a>
     </div>
   </aside>
   <div class="main-content">
