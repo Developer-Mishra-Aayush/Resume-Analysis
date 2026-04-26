@@ -1,0 +1,169 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'hr_dashboard/css/style.css' %}">
+</head>
+<body>
+    <div id="screen-hr" class="screen">
+<div class="app-shell">
+  <aside class="sidebar" id="hr-sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-icon" style="background:var(--purple)">H</div>
+      <div><div class="sidebar-brand-name">Resume ATS</div><div class="sidebar-brand-role">HR Portal</div></div>
+    </div>
+    <nav class="sidebar-nav">
+
+        <a href="{% url 'hr_dashboard:dashboard' %}" class="nav-link">
+          <span class="nav-icon">📊</span>Dashboard
+        </a>
+
+        <a href="{% url 'hr_dashboard:candidate_detail' %}" class="nav-link">
+          <span class="nav-icon">👤</span>Candidate Detail
+        </a>
+
+        <a href="{% url 'hr_dashboard:job_descriptions' %}" class="nav-link active">
+          <span class="nav-icon">📋</span>Job Descriptions
+        </a>
+
+        <a href="{% url 'hr_dashboard:analytics' %}" class="nav-link">
+          <span class="nav-icon">📈</span>Analytics
+        </a>
+
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-pill">
+        <div class="user-avatar" style="background:var(--purple-l);color:var(--purple)">{{first_job.name|first}}</div>
+        <div><div class="user-name">{{first_job.name}}</div><div class="user-email">{{first_job.email}}</div></div>
+      </div>
+      <a href="{% url 'hr_dashboard:logout' %}" class="btn btn-ghost btn-full btn-sm mt-8" style="justify-content:flex-start; text-decoration:none;">
+    🚪 Logout
+</a>
+    </div>
+  </aside>
+  <div class="main-content">
+     <!-- H: JD Manager -->
+    <div id="h-jd" class="hrpage" style="flex-direction:column;flex:1">
+      <div class="topbar">
+        <div><div class="topbar-title">Job Descriptions</div><div class="topbar-sub">Manage open positions.</div></div>
+        <div class="topbar-actions"><button class="btn btn-primary btn-sm" onclick="toggleJDForm()">+ Add New JD</button></div>
+      </div>
+      <div class="page">
+        <div class="card mb-16" id="jd-form" style="display:none">
+  
+            <div class="section-head">New Job Description</div>
+
+            <form method="POST" action="{% url 'hr_dashboard:create_new_job' %}">
+                {% csrf_token %}
+
+                <div class="grid-2">
+                
+                <div class="form-group">
+                    <label>Job Title</label>
+                    <input type="text" name="title" placeholder="e.g. Senior Django Developer" required />
+                </div>
+
+                <div class="form-group">
+                    <label>Experience Level</label>
+                    <select name="experience_level" required>
+                    <option value="junior">Junior (0–2 yrs)</option>
+                    <option value="mid" selected>Mid-Level (2–5 yrs)</option>
+                    <option value="senior">Senior (5+ yrs)</option>
+                    </select>
+                </div>
+
+                </div>
+
+                <div class="form-group">
+                <label>Description</label>
+                <textarea name="description" placeholder="Paste the full job description here..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                <label>Required Skills (comma separated)</label>
+                <input type="text" name="skills" placeholder="Python, Django, PostgreSQL, Docker, Redis" />
+                </div>
+
+                <div class="row">
+                <button type="submit" class="btn btn-primary">Save JD</button>
+                <button type="button" class="btn btn-secondary" onclick="toggleJDForm()">Cancel</button>
+                </div>
+
+            </form>
+
+            </div>
+        <div class="card">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Title</th><th>Level</th><th>Submissions</th><th>Avg Score</th><th>Status</th><th></th></tr></thead>
+              <tbody>
+  {% for job in filtered_jobs %}
+    <tr>
+      
+      <!-- Title -->
+      <td class="fw-600">{{ job.title }}</td>
+
+      <!-- Experience Level with color -->
+      <td>
+        <span class="badge {% if job.experience_level == 'junior' %}badge-blue {% elif job.experience_level == 'mid' %}badge-amber {% elif job.experience_level == 'senior' %}badge-red
+          {% endif %}">
+          
+          {{ job.experience_level|title }}
+        </span>
+      </td>
+
+      <!-- Submissions (placeholder for now) -->
+      <td>{{ job.submissions|default:0 }}</td>
+
+      <!-- Avg Score (placeholder logic) -->
+      <td style="color: var(--green)">
+        {{ job.avg_score|default:"--" }}
+      </td>
+
+      <!-- Active / Inactive Toggle -->
+      <td>
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer">
+          
+          <input 
+            type="checkbox" 
+            {% if job.active %}checked{% endif %}
+            onchange="toggleJD(this,'{{ job.title }}')"
+          >
+
+          <span class="badge 
+            {% if job.active %}badge-green{% else %}badge-gray{% endif %}">
+            
+            {% if job.active %}Active{% else %}Inactive{% endif %}
+          
+          </span>
+        </label>
+      </td>
+
+      <!-- Edit Button -->
+      <td>
+        <a href="" class="btn btn-ghost btn-sm">
+          Edit
+        </a>
+      </td>
+
+    </tr>
+
+  {% empty %}
+    <tr>
+      <td colspan="6" style="text-align:center;">
+        No Job Descriptions Found
+      </td>
+    </tr>
+  {% endfor %}
+</tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="{% static 'hr_dashboard/js/script.js' %}"></script>
+</body>
+</html>

@@ -23,4 +23,5 @@ urlpatterns = [
     
     # ✅ HR Dashboard route
     path('hr_dashboard/', include('hr_dashboard.urls')),
+    path('candidate_dashboard/', include('candidate_dashboard.urls')),
 ]

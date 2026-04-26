@@ -1,0 +1,95 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="{% static 'candidate_dashboard/css/style.css' %}"
+    />
+  </head>
+  <body>
+    <div id="screen-candidate" class="screen">
+      <div class="app-shell">
+        <aside class="sidebar" id="cand-sidebar">
+          <div class="sidebar-brand">
+            <div class="sidebar-brand-icon">A</div>
+            <div>
+              <div class="sidebar-brand-name">Resume ATS</div>
+              <div class="sidebar-brand-role">Candidate Portal</div>
+            </div>
+          </div>
+          <nav class="sidebar-nav">
+            <a href="{% url 'candidate_dashboard:candidate_dashboard' %}" class="nav-link ">
+              <span class="nav-icon">🏠</span>Dashboard
+            </a>
+
+            <a href="{% url 'candidate_dashboard:upload' %}" class="nav-link">
+              <span class="nav-icon">📤</span>Upload & Analyze
+            </a>
+
+            <a href="{% url 'candidate_dashboard:my_resumes' %}" class="nav-link">
+              <span class="nav-icon">📋</span>My Resumes
+            </a>
+
+            <a href="{% url 'candidate_dashboard:last_result' %}" class="nav-link">
+              <span class="nav-icon">📊</span>Last Result
+            </a>
+
+            <a href="{% url 'candidate_dashboard:chat_with_resume' %}" class="nav-link active">
+              <span class="nav-icon">💬</span>Chat with Resume
+            </a>
+          </nav>
+          <div class="sidebar-footer">
+            <div class="user-pill">
+              <div class="user-avatar" id="cand-av">{{ r.full_name|first }} </div>
+              <div>
+                <div class="user-name" id="cand-name">{{r.full_name}}</div>
+                <div class="user-email" id="cand-email">{{r.email}}</div>
+              </div>
+            </div>
+            <button
+              class="btn btn-ghost btn-full btn-sm mt-8"
+              onclick="logout()"
+              style="justify-content: flex-start"
+            >
+              🚪 Logout
+            </button>
+          </div>
+        </aside>
+        <div class="main-content">
+           <!-- C: Chat -->
+    <div id="c-chat" class="cpage" style="flex-direction:column;flex:1">
+      <div class="topbar"><div><div class="topbar-title">Chat with Resume</div><div class="topbar-sub">Ask follow-up questions about your analysis.</div></div></div>
+      <div class="page">
+        <div class="alert alert-info mb-16">💼 Context: <strong>Senior Django Developer</strong> · ATS Score: <strong>82/100</strong></div>
+        <div class="chat-starter-btns" id="chat-starters">
+          <button class="chat-starter" onclick="chatStarter('Why is my score 82 and not higher?')">Why is my score 82?</button>
+          <button class="chat-starter" onclick="chatStarter('What skills should I add to improve my score?')">What should I add?</button>
+          <button class="chat-starter" onclick="chatStarter('How can I improve my project descriptions?')">Improve descriptions?</button>
+          <button class="chat-starter" onclick="chatStarter('Which missing skill is most important?')">Most important gap?</button>
+        </div>
+        <div class="chat-wrap">
+          <div class="chat-messages" id="chat-msgs">
+            <div class="chat-bubble assistant">Hi! I've reviewed your resume for <strong>Senior Django Developer</strong>. Your score is 82/100 — a solid match! Ask me anything about your result. 👋</div>
+          </div>
+          <div class="chat-input-row">
+            <textarea class="chat-input" id="chat-inp" rows="1" placeholder="Ask about your resume..." onkeydown="chatKey(event)"></textarea>
+            <button class="btn btn-primary" onclick="sendChat()" id="chat-send">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+        </div>
+
+
+
+
+
+      </div>
+    </div>
+    <script src="{% static 'candidate_dashboard/js/script.js' %}"></script>
+  </body>
+</html>

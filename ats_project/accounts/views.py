@@ -102,7 +102,7 @@ def verify_otp(request):
                 if r.isHr:
                     return redirect('/hr_dashboard/')
                 else:
-                    return render(request,'accounts/student.html')
+                    return redirect('/candidate_dashboard/')
         else:
             return render(request,'accounts/verification.html',{'error':'Incorrect OTP. Please try again.', 'email': email})
         

@@ -16,17 +16,30 @@
       <div><div class="sidebar-brand-name">Resume ATS</div><div class="sidebar-brand-role">HR Portal</div></div>
     </div>
     <nav class="sidebar-nav">
-      <button class="nav-link active" onclick="hNav(this,'h-dashboard')"><span class="nav-icon">📊</span>Dashboard</button>
-      <button class="nav-link" onclick="hNav(this,'h-detail')"><span class="nav-icon">👤</span>Candidate Detail</button>
-      <button class="nav-link" onclick="hNav(this,'h-jd')"><span class="nav-icon">📋</span>Job Descriptions</button>
-      <button class="nav-link" onclick="hNav(this,'h-analytics')"><span class="nav-icon">📈</span>Analytics</button>
+
+        <a href="{% url 'hr_dashboard:dashboard' %}" class="nav-link active">
+          <span class="nav-icon">📊</span>Dashboard
+        </a>
+
+        <a href="{% url 'hr_dashboard:candidate_detail' %}" class="nav-link">
+          <span class="nav-icon">👤</span>Candidate Detail
+        </a>
+
+        <a href="{% url 'hr_dashboard:job_descriptions' %}" class="nav-link">
+          <span class="nav-icon">📋</span>Job Descriptions
+        </a>
+
+        <a href="{% url 'hr_dashboard:analytics' %}" class="nav-link">
+          <span class="nav-icon">📈</span>Analytics
+        </a>
+
     </nav>
     <div class="sidebar-footer">
       <div class="user-pill">
         <div class="user-avatar" style="background:var(--purple-l);color:var(--purple)">SR</div>
         <div><div class="user-name">{{r.full_name}}</div><div class="user-email">{{r.email}}</div></div>
       </div>
-      <a href="{% url 'logout' %}" class="btn btn-ghost btn-full btn-sm mt-8" style="justify-content:flex-start; text-decoration:none;">
+      <a href="{% url 'hr_dashboard:logout' %}" class="btn btn-ghost btn-full btn-sm mt-8" style="justify-content:flex-start; text-decoration:none;">
     🚪 Logout
 </a>
     </div>

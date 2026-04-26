@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'hr_dashboard/css/style.css' %}">
+</head>
+<body>
+    <div id="screen-hr" class="screen">
+<div class="app-shell">
+  <aside class="sidebar" id="hr-sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-icon" style="background:var(--purple)">H</div>
+      <div><div class="sidebar-brand-name">Resume ATS</div><div class="sidebar-brand-role">HR Portal</div></div>
+    </div>
+    <nav class="sidebar-nav">
+
+        <a href="{% url 'hr_dashboard:dashboard' %}" class="nav-link">
+          <span class="nav-icon">📊</span>Dashboard
+        </a>
+
+        <a href="{% url 'hr_dashboard:candidate_detail' %}" class="nav-link">
+          <span class="nav-icon">👤</span>Candidate Detail
+        </a>
+
+        <a href="{% url 'hr_dashboard:job_descriptions' %}" class="nav-link">
+          <span class="nav-icon">📋</span>Job Descriptions
+        </a>
+
+        <a href="{% url 'hr_dashboard:analytics' %}" class="nav-link active">
+          <span class="nav-icon">📈</span>Analytics
+        </a>
+
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-pill">
+        <div class="user-avatar" style="background:var(--purple-l);color:var(--purple)">SR</div>
+        <div><div class="user-name">{{r.full_name}}</div><div class="user-email">{{r.email}}</div></div>
+      </div>
+      <a href="{% url 'hr_dashboard:logout' %}" class="btn btn-ghost btn-full btn-sm mt-8" style="justify-content:flex-start; text-decoration:none;">
+    🚪 Logout
+</a>
+    </div>
+  </aside>
+  <div class="main-content">
+
+     <!-- H: Analytics -->
+    <div id="h-analytics" class="hrpage" style="flex-direction:column;flex:1">
+      <div class="topbar"><div><div class="topbar-title">Platform Analytics</div><div class="topbar-sub">Candidate activity overview.</div></div></div>
+      <div class="page">
+        <div class="stat-grid mb-24">
+          <div class="stat-card"><div class="stat-label">Total Candidates</div><div class="stat-value">18</div></div>
+          <div class="stat-card"><div class="stat-label">Total Analyses</div><div class="stat-value">24</div></div>
+          <div class="stat-card"><div class="stat-label">Avg Platform Score</div><div class="stat-value" style="color:var(--amber)">61</div></div>
+          <div class="stat-card"><div class="stat-label">Best JD Match Rate</div><div class="stat-value" style="font-size:16px;padding-top:10px">Django Dev</div></div>
+        </div>
+        <div class="grid-2" style="gap:16px">
+          <div class="card">
+            <div class="section-head">Score Distribution</div>
+            <div class="col" style="gap:12px;margin-top:8px">
+              <div><div class="row-between mb-4"><span class="text-sm">75–100 (Excellent)</span><span class="fw-600 text-sm" style="color:var(--green)">6 candidates</span></div><div class="score-bar" style="height:10px"><div class="score-bar-fill" style="width:33%;background:var(--green)"></div></div></div>
+              <div><div class="row-between mb-4"><span class="text-sm">50–74 (Good)</span><span class="fw-600 text-sm" style="color:var(--amber)">10 candidates</span></div><div class="score-bar" style="height:10px"><div class="score-bar-fill" style="width:56%;background:var(--amber)"></div></div></div>
+              <div><div class="row-between mb-4"><span class="text-sm">0–49 (Needs Work)</span><span class="fw-600 text-sm" style="color:var(--red)">8 candidates</span></div><div class="score-bar" style="height:10px"><div class="score-bar-fill" style="width:44%;background:var(--red)"></div></div></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="section-head">Top Skills Found</div>
+            <div class="col" style="gap:8px;margin-top:8px">
+              <div class="row-between"><span class="text-sm">Python</span><div class="score-bar" style="width:130px"><div class="score-bar-fill" style="width:95%;background:var(--accent)"></div></div><span class="text-xs text-muted">23/24</span></div>
+              <div class="row-between"><span class="text-sm">Django</span><div class="score-bar" style="width:130px"><div class="score-bar-fill" style="width:87%;background:var(--accent)"></div></div><span class="text-xs text-muted">21/24</span></div>
+              <div class="row-between"><span class="text-sm">PostgreSQL</span><div class="score-bar" style="width:130px"><div class="score-bar-fill" style="width:75%;background:var(--accent)"></div></div><span class="text-xs text-muted">18/24</span></div>
+              <div class="row-between"><span class="text-sm">Git</span><div class="score-bar" style="width:130px"><div class="score-bar-fill" style="width:71%;background:var(--accent)"></div></div><span class="text-xs text-muted">17/24</span></div>
+              <div class="row-between"><span class="text-sm">REST API</span><div class="score-bar" style="width:130px"><div class="score-bar-fill" style="width:58%;background:var(--accent)"></div></div><span class="text-xs text-muted">14/24</span></div>
+              <div class="row-between"><span class="text-sm">Docker</span><div class="score-bar" style="width:130px"><div class="score-bar-fill" style="width:42%;background:var(--accent)"></div></div><span class="text-xs text-muted">10/24</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="{% static 'hr_dashboard/js/script.js' %}"></script>
+</body>
+</html>

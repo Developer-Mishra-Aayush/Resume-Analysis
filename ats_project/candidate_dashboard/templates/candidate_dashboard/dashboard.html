@@ -1,0 +1,246 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="{% static 'candidate_dashboard/css/style.css' %}"
+    />
+  </head>
+  <body>
+    <div id="screen-candidate" class="screen">
+      <div class="app-shell">
+        <aside class="sidebar" id="cand-sidebar">
+          <div class="sidebar-brand">
+            <div class="sidebar-brand-icon">A</div>
+            <div>
+              <div class="sidebar-brand-name">Resume ATS</div>
+              <div class="sidebar-brand-role">Candidate Portal</div>
+            </div>
+          </div>
+          <nav class="sidebar-nav">
+            <a href="{% url 'candidate_dashboard:candidate_dashboard' %}" class="nav-link active">
+              <span class="nav-icon">🏠</span>Dashboard
+            </a>
+
+            <a href="{% url 'candidate_dashboard:upload' %}" class="nav-link">
+              <span class="nav-icon">📤</span>Upload & Analyze
+            </a>
+
+            <a href="{% url 'candidate_dashboard:my_resumes' %}" class="nav-link">
+              <span class="nav-icon">📋</span>My Resumes
+            </a>
+
+            <a href="{% url 'candidate_dashboard:last_result' %}" class="nav-link">
+              <span class="nav-icon">📊</span>Last Result
+            </a>
+
+            <a href="{% url 'candidate_dashboard:chat_with_resume' %}" class="nav-link">
+              <span class="nav-icon">💬</span>Chat with Resume
+            </a>
+          </nav>
+          <div class="sidebar-footer">
+            <div class="user-pill">
+              <div class="user-avatar" id="cand-av">{{ r.full_name|first }} </div>
+              <div>
+                <div class="user-name" id="cand-name">{{r.full_name}}</div>
+                <div class="user-email" id="cand-email">{{r.email}}</div>
+              </div>
+            </div>
+            <button
+              class="btn btn-ghost btn-full btn-sm mt-8"
+              onclick="logout()"
+              style="justify-content: flex-start"
+            >
+              🚪 Logout
+            </button>
+          </div>
+        </aside>
+        <div class="main-content">
+          <!-- C: Home -->
+          <div
+            id="c-home"
+            class="cpage"
+            style="display: flex; flex-direction: column; flex: 1"
+          >
+            <div class="topbar">
+              <div>
+                <div class="topbar-title">My Dashboard</div>
+                <div class="topbar-sub">Your ATS overview at a glance.</div>
+              </div>
+              <div class="topbar-actions" style="position: relative">
+                <button class="notif-btn" onclick="toggleNotif()">
+                  🔔<span class="notif-badge" id="notif-count">2</span>
+                </button>
+                <div class="notif-dropdown" id="notif-dd">
+                  <div class="notif-header">Notifications</div>
+                  <div class="notif-item unread">
+                    <div class="notif-item-title">New JD Posted</div>
+                    <div class="notif-item-msg">
+                      Backend Engineer at TechCorp is now available.
+                    </div>
+                    <div class="notif-item-time">2 hours ago</div>
+                  </div>
+                  <div class="notif-item unread">
+                    <div class="notif-item-title">Analysis Complete</div>
+                    <div class="notif-item-msg">
+                      Your score for "Senior Django Dev" is ready.
+                    </div>
+                    <div class="notif-item-time">Yesterday</div>
+                  </div>
+                  <div class="notif-item">
+                    <div class="notif-item-title">Tip</div>
+                    <div class="notif-item-msg">
+                      Add Docker to improve your score by ~8 points.
+                    </div>
+                    <div class="notif-item-time">3 days ago</div>
+                  </div>
+                </div>
+                <button
+                  class="btn btn-primary btn-sm"
+                  onclick="cNav(null, 'c-upload')"
+                >
+                  + Upload Resume
+                </button>
+              </div>
+            </div>
+            <div class="page">
+              <div class="stat-grid">
+                <div class="stat-card">
+                  <div class="stat-label">Best ATS Score</div>
+                  <div class="stat-value" style="color: var(--green)">82</div>
+                  <div class="stat-sub">out of 100</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-label">Analyses Run</div>
+                  <div class="stat-value">5</div>
+                  <div class="stat-sub">total</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-label">Resumes Uploaded</div>
+                  <div class="stat-value">2</div>
+                  <div class="stat-sub">versions</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-label">Top Skill</div>
+                  <div
+                    class="stat-value"
+                    style="font-size: 18px; padding-top: 8px"
+                  >
+                    Django
+                  </div>
+                  <div class="stat-sub">most matched</div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="row-between mb-16">
+                  <div class="section-head" style="margin: 0">
+                    Recent Analyses
+                  </div>
+                  <button
+                    class="btn btn-ghost btn-sm"
+                    onclick="cNav(null, 'c-history')"
+                  >
+                    View all →
+                  </button>
+                </div>
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Job Description</th>
+                        <th>ATS Score</th>
+                        <th>Experience</th>
+                        <th>Date</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="fw-600">Senior Django Developer</td>
+                        <td>
+                          <div class="score-bar-wrap">
+                            <div class="score-bar">
+                              <div
+                                class="score-bar-fill"
+                                style="width: 82%; background: var(--green)"
+                              ></div>
+                            </div>
+                            <span class="score-num" style="color: var(--green)"
+                              >82</span
+                            >
+                          </div>
+                        </td>
+                        <td>10 months</td>
+                        <td class="text-muted">Jan 14</td>
+                        <td>
+                          <button
+                            class="btn btn-secondary btn-sm"
+                            onclick="cNav(null, 'c-result')"
+                          >
+                            View
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="fw-600">Backend Engineer</td>
+                        <td>
+                          <div class="score-bar-wrap">
+                            <div class="score-bar">
+                              <div
+                                class="score-bar-fill"
+                                style="width: 67%; background: var(--amber)"
+                              ></div>
+                            </div>
+                            <span class="score-num" style="color: var(--amber)"
+                              >67</span
+                            >
+                          </div>
+                        </td>
+                        <td>10 months</td>
+                        <td class="text-muted">Jan 10</td>
+                        <td>
+                          <button class="btn btn-secondary btn-sm">View</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="fw-600">Full Stack Developer</td>
+                        <td>
+                          <div class="score-bar-wrap">
+                            <div class="score-bar">
+                              <div
+                                class="score-bar-fill"
+                                style="width: 44%; background: var(--red)"
+                              ></div>
+                            </div>
+                            <span class="score-num" style="color: var(--red)"
+                              >44</span
+                            >
+                          </div>
+                        </td>
+                        <td>10 months</td>
+                        <td class="text-muted">Jan 5</td>
+                        <td>
+                          <button class="btn btn-secondary btn-sm">View</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+        
+      </div>
+    </div>
+    <script src="{% static 'candidate_dashboard/js/script.js' %}"></script>
+  </body>
+</html>

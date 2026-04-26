@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'hr_dashboard/css/style.css' %}">
+</head>
+<body>
+    <div id="screen-hr" class="screen">
+<div class="app-shell">
+  <aside class="sidebar" id="hr-sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-icon" style="background:var(--purple)">H</div>
+      <div><div class="sidebar-brand-name">Resume ATS</div><div class="sidebar-brand-role">HR Portal</div></div>
+    </div>
+    <nav class="sidebar-nav">
+
+        <a href="{% url 'hr_dashboard:dashboard' %}" class="nav-link ">
+          <span class="nav-icon">📊</span>Dashboard
+        </a>
+
+        <a href="{% url 'hr_dashboard:candidate_detail' %}" class="nav-link active">
+          <span class="nav-icon">👤</span>Candidate Detail
+        </a>
+
+        <a href="{% url 'hr_dashboard:job_descriptions' %}" class="nav-link">
+          <span class="nav-icon">📋</span>Job Descriptions
+        </a>
+
+        <a href="{% url 'hr_dashboard:analytics' %}" class="nav-link">
+          <span class="nav-icon">📈</span>Analytics
+        </a>
+
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-pill">
+        <div class="user-avatar" style="background:var(--purple-l);color:var(--purple)">SR</div>
+        <div><div class="user-name">{{r.full_name}}</div><div class="user-email">{{r.email}}</div></div>
+      </div>
+      <a href="{% url 'hr_dashboard:logout' %}" class="btn btn-ghost btn-full btn-sm mt-8" style="justify-content:flex-start; text-decoration:none;">
+    🚪 Logout
+</a>
+    </div>
+  </aside>
+  <div class="main-content">
+
+   
+
+    <!-- H: Candidate Detail -->
+    <div id="h-detail" class="hrpage" style="flex-direction:column;flex:1">
+      <div class="topbar">
+        <div><div class="topbar-title">Candidate: Raj Patel</div><div class="topbar-sub">Senior Django Developer · Submitted Jan 14</div></div>
+        <div class="topbar-actions">
+          <button class="btn btn-secondary btn-sm" onclick="hNav(null,'h-dashboard')">← Back</button>
+          <button class="btn btn-primary btn-sm" onclick="dlPDF()">📄 Download Report</button>
+        </div>
+      </div>
+      <div class="page">
+        <div class="card mb-16">
+          <div class="row" style="gap:20px;flex-wrap:wrap">
+            <div class="score-circle high">94<span style="font-size:11px;font-weight:400;color:var(--muted)">/100</span></div>
+            <div><div style="font-size:18px;font-weight:700;margin-bottom:4px">Excellent Match ✦</div><div class="text-muted mb-8">Senior Django Developer</div><div class="row" style="gap:14px;flex-wrap:wrap"><div><span class="text-muted text-sm">Name: </span><span class="fw-600">Raj Patel</span></div><div><span class="text-muted text-sm">Email: </span><span class="fw-600">raj@email.com</span></div><div><span class="text-muted text-sm">Experience: </span><span class="fw-600">3 years</span></div></div></div>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <div class="section-head">Skills Gap</div>
+            <div class="mb-8"><div class="text-xs fw-600 text-muted mb-4">✅ MATCHED</div><div class="skills-wrap"><span class="skill-pill skill-matched">Python</span><span class="skill-pill skill-matched">Django</span><span class="skill-pill skill-matched">PostgreSQL</span><span class="skill-pill skill-matched">Docker</span><span class="skill-pill skill-matched">REST API</span><span class="skill-pill skill-matched">Celery</span><span class="skill-pill skill-matched">Redis</span><span class="skill-pill skill-matched">AWS</span><span class="skill-pill skill-matched">Git</span></div></div>
+            <div class="sep" style="margin:10px 0"></div>
+            <div><div class="text-xs fw-600 text-muted mb-4">❌ MISSING</div><div class="skills-wrap"><span class="skill-pill skill-missing">GraphQL</span><span class="skill-pill skill-missing">Kubernetes</span></div></div>
+          </div>
+          <div class="card">
+            <div class="section-head">Suggestions</div>
+            <div class="col">
+              <div style="padding:8px 12px;background:var(--amber-l);border-radius:6px;border-left:3px solid var(--amber)"><span class="badge badge-amber mb-4">Medium</span><div class="text-sm fw-600 mt-4">Learn GraphQL basics</div><div class="text-xs text-muted mt-4">Listed as required. Candidate is close to a top score.</div></div>
+              <div style="padding:8px 12px;background:var(--bg);border-radius:6px;border-left:3px solid var(--border2)"><span class="badge badge-gray mb-4">Low</span><div class="text-sm fw-600 mt-4">Add Kubernetes experience</div><div class="text-xs text-muted mt-4">Nice-to-have for senior cloud roles.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="{% static 'hr_dashboard/js/script.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="{% static 'candidate_dashboard/css/style.css' %}"
+    />
+  </head>
+  <body>
+    <div id="screen-candidate" class="screen">
+      <div class="app-shell">
+        <aside class="sidebar" id="cand-sidebar">
+          <div class="sidebar-brand">
+            <div class="sidebar-brand-icon">A</div>
+            <div>
+              <div class="sidebar-brand-name">Resume ATS</div>
+              <div class="sidebar-brand-role">Candidate Portal</div>
+            </div>
+          </div>
+          <nav class="sidebar-nav">
+            <a href="{% url 'candidate_dashboard:candidate_dashboard' %}" class="nav-link">
+              <span class="nav-icon">🏠</span>Dashboard
+            </a>
+
+            <a href="{% url 'candidate_dashboard:upload' %}" class="nav-link">
+              <span class="nav-icon">📤</span>Upload & Analyze
+            </a>
+
+            <a href="{% url 'candidate_dashboard:my_resumes' %}" class="nav-link active">
+              <span class="nav-icon">📋</span>My Resumes
+            </a>
+
+            <a href="{% url 'candidate_dashboard:last_result' %}" class="nav-link">
+              <span class="nav-icon">📊</span>Last Result
+            </a>
+
+            <a href="{% url 'candidate_dashboard:chat_with_resume' %}" class="nav-link">
+              <span class="nav-icon">💬</span>Chat with Resume
+            </a>
+          </nav>
+          <div class="sidebar-footer">
+            <div class="user-pill">
+              <div class="user-avatar" id="cand-av">{{ r.full_name|first }} </div>
+              <div>
+                <div class="user-name" id="cand-name">{{r.full_name}}</div>
+                <div class="user-email" id="cand-email">{{r.email}}</div>
+              </div>
+            </div>
+            <button
+              class="btn btn-ghost btn-full btn-sm mt-8"
+              onclick="logout()"
+              style="justify-content: flex-start"
+            >
+              🚪 Logout
+            </button>
+          </div>
+        </aside>
+        <div class="main-content">
+           <!-- C: History -->
+    <div id="c-history" class="cpage" style="flex-direction:column;flex:1">
+      <div class="topbar">
+        <div><div class="topbar-title">My Resumes</div><div class="topbar-sub">All uploads and their analysis history.</div></div>
+        <div class="topbar-actions"><button class="btn btn-primary btn-sm" onclick="cNav(null,'c-upload')">+ Upload New</button></div>
+      </div>
+      <div class="page">
+        <div class="alert alert-success mb-16">🏆 Best score: <strong>82/100</strong> for <strong>Senior Django Developer</strong></div>
+        <div class="card mb-16">
+          <div class="row-between mb-16">
+            <div class="row"><span style="font-size:22px">📄</span><div><div class="fw-600">john_resume_v2.pdf</div><div class="text-muted text-sm">Uploaded Jan 14, 2025 · 284 KB · 2 analyses</div></div></div>
+            <div class="row"><button class="btn btn-secondary btn-sm" onclick="cNav(null,'c-upload')">Analyze Again</button><button class="btn btn-danger btn-sm">Delete</button></div>
+          </div>
+          <div class="table-wrap"><table><thead><tr><th>Job Description</th><th>Score</th><th>Date</th><th></th></tr></thead><tbody>
+            <tr><td>Senior Django Developer</td><td><span class="badge badge-green">82</span></td><td class="text-muted">Jan 14</td><td><button class="btn btn-ghost btn-sm" onclick="cNav(null,'c-result')">View →</button></td></tr>
+            <tr><td>Backend Engineer</td><td><span class="badge badge-amber">67</span></td><td class="text-muted">Jan 10</td><td><button class="btn btn-ghost btn-sm">View →</button></td></tr>
+          </tbody></table></div>
+        </div>
+        <div class="card">
+          <div class="row-between mb-16">
+            <div class="row"><span style="font-size:22px">📄</span><div><div class="fw-600">john_resume_v1.pdf</div><div class="text-muted text-sm">Uploaded Jan 5, 2025 · 201 KB · 1 analysis</div></div></div>
+            <div class="row"><button class="btn btn-secondary btn-sm">Analyze Again</button><button class="btn btn-danger btn-sm">Delete</button></div>
+          </div>
+          <div class="table-wrap"><table><thead><tr><th>Job Description</th><th>Score</th><th>Date</th><th></th></tr></thead><tbody>
+            <tr><td>Full Stack Developer</td><td><span class="badge badge-red">44</span></td><td class="text-muted">Jan 5</td><td><button class="btn btn-ghost btn-sm">View →</button></td></tr>
+          </tbody></table></div>
+        </div>
+      </div>
+    </div>
+        </div>
+
+
+
+
+
+      </div>
+    </div>
+    <script src="{% static 'candidate_dashboard/js/script.js' %}"></script>
+  </body>
+</html>
