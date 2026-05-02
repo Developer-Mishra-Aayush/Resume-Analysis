@@ -10,5 +10,7 @@ urlpatterns = [
     path('upload/',views.upload, name='upload'),
     path('my_resumes/', views.my_resumes, name='my_resumes'),
     path('last_result/', views.last_result, name='last_result'),
-    path('chat_with_resume/', views.chat_with_resume, name='chat_with_resume')
+    path('chat_with_resume/', views.chat_with_resume, name='chat_with_resume'),
+    path('get-jds/', views.get_jds, name='get_jds'),
+    path('upload_resume/', views.upload_resume, name='upload_resume'),
 ]

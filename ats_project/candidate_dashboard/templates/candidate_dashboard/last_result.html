@@ -61,50 +61,223 @@
         </aside>
         <div class="main-content">
            <!-- C: Result -->
+
+
+
+
+
+
+
     <div id="c-result" class="cpage" style="flex-direction:column;flex:1">
-      <div class="topbar">
-        <div><div class="topbar-title">Analysis Result</div><div class="topbar-sub">Senior Django Developer · Jan 14, 2025</div></div>
-        <div class="topbar-actions">
-          <button class="btn btn-secondary btn-sm" onclick="dlPDF()">📄 PDF Report</button>
-          <button class="btn btn-secondary btn-sm" onclick="copyLink()">🔗 Share</button>
-          <button class="btn btn-primary btn-sm" onclick="cNav(null,'c-chat')">💬 Chat</button>
-        </div>
-      </div>
-      <div class="page">
-        <div class="card mb-16">
-          <div class="row" style="gap:24px;flex-wrap:wrap">
-            <div class="score-circle high">82<span style="font-size:12px;font-weight:400;color:var(--muted)">/100</span></div>
-            <div style="flex:1;min-width:180px">
-              <div style="font-size:20px;font-weight:700;margin-bottom:4px">Good Match ✓</div>
-              <div class="text-muted mb-8">Senior Django Developer · TechCorp</div>
-              <div class="row" style="gap:16px;flex-wrap:wrap">
-                <div><span class="text-muted text-sm">Experience: </span><span class="fw-600">10 months</span></div>
-                <div><span class="text-muted text-sm">Skills: </span><span class="fw-600">8 / 12 matched</span></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="grid-2 mb-16">
-          <div class="card">
-            <div class="section-head">Skills Analysis</div>
-            <div class="mb-8"><div class="text-xs text-muted fw-600 mb-4">✅ MATCHED (8)</div><div class="skills-wrap"><span class="skill-pill skill-matched">Python</span><span class="skill-pill skill-matched">Django</span><span class="skill-pill skill-matched">PostgreSQL</span><span class="skill-pill skill-matched">REST API</span><span class="skill-pill skill-matched">Redis</span><span class="skill-pill skill-matched">Celery</span><span class="skill-pill skill-matched">Git</span><span class="skill-pill skill-matched">Linux</span></div></div>
-            <div class="sep" style="margin:10px 0"></div>
-            <div class="mb-8"><div class="text-xs text-muted fw-600 mb-4">❌ MISSING (4)</div><div class="skills-wrap"><span class="skill-pill skill-missing">Docker</span><span class="skill-pill skill-missing">Kubernetes</span><span class="skill-pill skill-missing">AWS</span><span class="skill-pill skill-missing">GraphQL</span></div></div>
-            <div class="sep" style="margin:10px 0"></div>
-            <div><div class="text-xs text-muted fw-600 mb-4">➕ EXTRA SKILLS</div><div class="skills-wrap"><span class="skill-pill skill-extra">Flask</span><span class="skill-pill skill-extra">MongoDB</span><span class="skill-pill skill-extra">RabbitMQ</span></div></div>
-          </div>
-          <div class="card">
-            <div class="section-head">Improvement Suggestions</div>
-            <div class="col">
-              <div style="padding:10px 12px;background:var(--red-l);border-radius:var(--radius);border-left:3px solid var(--red)"><div class="row mb-4"><span class="badge badge-red">High</span></div><div class="fw-600 text-sm mb-4">Add Docker to your Skills section</div><div class="text-muted text-sm">Required but not found. Mention in project descriptions too.</div></div>
-              <div style="padding:10px 12px;background:var(--amber-l);border-radius:var(--radius);border-left:3px solid var(--amber)"><div class="row mb-4"><span class="badge badge-amber">Medium</span></div><div class="fw-600 text-sm mb-4">Quantify your project impact</div><div class="text-muted text-sm">Add metrics: "API serving 500+ users" instead of "built API".</div></div>
-              <div style="padding:10px 12px;background:var(--bg);border-radius:var(--radius);border-left:3px solid var(--border2)"><div class="row mb-4"><span class="badge badge-gray">Low</span></div><div class="fw-600 text-sm mb-4">Add cloud/AWS experience</div><div class="text-muted text-sm">Even basic EC2/S3 usage helps for senior roles.</div></div>
-            </div>
-          </div>
-        </div>
-        <div class="card"><div class="section-head">Project Categories Found</div><div class="skills-wrap"><span class="badge badge-blue">Web Development</span><span class="badge badge-purple">REST API</span><span class="badge badge-green">Database Design</span><span class="badge badge-amber">Async Processing</span></div></div>
+
+  <!-- 🔹 TOPBAR -->
+  <div class="topbar">
+    <div>
+      <div class="topbar-title">Analysis Result</div>
+      <div class="topbar-sub">
+        {{ last_resume.jd.title }} · {{ last_resume.uploaded_at|date:"M d, Y" }}
       </div>
     </div>
+
+    <div class="topbar-actions">
+      <button class="btn btn-secondary btn-sm" onclick="dlPDF()">📄 PDF Report</button>
+      <button class="btn btn-secondary btn-sm" onclick="copyLink()">🔗 Share</button>
+      <button class="btn btn-primary btn-sm" onclick="cNav(null,'c-chat')">💬 Chat</button>
+    </div>
+  </div>
+
+  <!-- 🔹 PAGE -->
+  <div class="page">
+
+    <!-- 🔥 SCORE CARD -->
+    <div class="card mb-16">
+      <div class="row" style="gap:24px;flex-wrap:wrap">
+
+        <!-- Score Circle -->
+        <div class="score-circle 
+          {% if last_resume.score >= 80 %}high
+          {% elif last_resume.score >= 60 %}medium
+          {% else %}low{% endif %}">
+          {{ last_resume.score }}
+          <span style="font-size:12px;font-weight:400;color:var(--muted)">/100</span>
+        </div>
+
+        <!-- Info -->
+        <div style="flex:1;min-width:180px">
+          <div style="font-size:20px;font-weight:700;margin-bottom:4px">
+            {{ last_resume.match_level }} ✓
+          </div>
+
+          <div class="text-muted mb-8">
+            {{ last_resume.jd.title }} · {{ last_resume.company.name }}
+          </div>
+
+          <div class="row" style="gap:16px;flex-wrap:wrap">
+
+            <div>
+              <span class="text-muted text-sm">Experience: </span>
+              <span class="fw-600">{{ last_resume.total_experience }}</span>
+            </div>
+
+            <div>
+              <span class="text-muted text-sm">Skills: </span>
+
+              {% with matched=last_resume.skills_matched|length missing=last_resume.skills_missing|length %}
+                <span class="fw-600">
+                  {{ matched }} / {{ matched|add:missing }}
+                </span>
+              {% endwith %}
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 🔥 GRID -->
+    <div class="grid-2 mb-16">
+
+      <!-- 🔹 SKILLS -->
+      <div class="card">
+        <div class="section-head">Skills Analysis</div>
+
+        <!-- Matched -->
+        <div class="mb-8">
+          <div class="text-xs text-muted fw-600 mb-4">
+            ✅ ({{ last_resume.skills_matched|length }}) MATCHED
+          </div>
+          <div class="skills-wrap">
+            {% for skill in last_resume.skills_matched %}
+              <span class="skill-pill skill-matched">{{ skill }}</span>
+            {% empty %}
+              <span class="text-muted">No matched skills</span>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="sep" style="margin:10px 0"></div>
+
+        <!-- Missing -->
+        <div class="mb-8">
+          <div class="text-xs text-muted fw-600 mb-4">
+            ❌ ({{ last_resume.skills_missing|length }}) MISSING
+          </div>
+          <div class="skills-wrap">
+            {% for skill in last_resume.skills_missing %}
+              <span class="skill-pill skill-missing">{{ skill }}</span>
+            {% empty %}
+              <span class="text-muted">No missing skills</span>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="sep" style="margin:10px 0"></div>
+
+        <!-- Extra -->
+        <div>
+          <div class="text-xs text-muted fw-600 mb-4">➕ EXTRA SKILLS</div>
+          <div class="skills-wrap">
+            {% for skill in last_resume.skills_extra %}
+              <span class="skill-pill skill-extra">{{ skill }}</span>
+            {% empty %}
+              <span class="text-muted">No extra skills</span>
+            {% endfor %}
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 🔹 SUGGESTIONS -->
+      <div class="card">
+  <div class="section-head">Improvement Suggestions</div>
+
+  <div class="col">
+
+    <!-- 🔴 HIGH -->
+    {% for s in last_resume.suggestions_high %}
+      <div style="padding:10px 12px;background:var(--red-l);
+                  border-radius:var(--radius);
+                  border-left:3px solid var(--red);
+                  margin-bottom:10px;">
+
+        <div class="row mb-4">
+          <span class="badge badge-red">High</span>
+        </div>
+
+        <div class="fw-600 text-sm mb-4">{{ s }}</div>
+      </div>
+    {% endfor %}
+
+    <!-- 🟠 MEDIUM -->
+    {% for s in last_resume.suggestions_medium %}
+      <div style="padding:10px 12px;background:var(--amber-l);
+                  border-radius:var(--radius);
+                  border-left:3px solid var(--amber);
+                  margin-bottom:10px;">
+
+        <div class="row mb-4">
+          <span class="badge badge-amber">Medium</span>
+        </div>
+
+        <div class="fw-600 text-sm mb-4">{{ s }}</div>
+      </div>
+    {% endfor %}
+
+    <!-- ⚪ LOW -->
+    {% for s in last_resume.suggestions_low %}
+      <div style="padding:10px 12px;background:var(--bg);
+                  border-radius:var(--radius);
+                  border-left:3px solid var(--border2);
+                  margin-bottom:10px;">
+
+        <div class="row mb-4">
+          <span class="badge badge-gray">Low</span>
+        </div>
+
+        <div class="fw-600 text-sm mb-4">{{ s }}</div>
+      </div>
+    {% endfor %}
+
+    {% if not last_resume.suggestions_high and not last_resume.suggestions_medium and not last_resume.suggestions_low %}
+      <span class="text-muted">No suggestions available</span>
+    {% endif %}
+
+  </div>
+</div>
+
+    </div>
+
+    <!-- 🔹 PROJECT CATEGORIES -->
+    <div class="card">
+      <div class="section-head">Project Categories Found</div>
+
+      <div class="skills-wrap">
+  {% for cat in last_resume.project_categories %}
+
+    {% if forloop.counter0|divisibleby:4 %}
+      <span class="badge badge-blue">{{ cat }}</span>
+
+    {% elif forloop.counter0|add:"-1"|divisibleby:4 %}
+      <span class="badge badge-purple">{{ cat }}</span>
+
+    {% elif forloop.counter0|add:"-2"|divisibleby:4 %}
+      <span class="badge badge-green">{{ cat }}</span>
+
+    {% else %}
+      <span class="badge badge-amber">{{ cat }}</span>
+
+    {% endif %}
+
+  {% empty %}
+    <span class="text-muted">No categories found</span>
+  {% endfor %}
+</div>
+    </div>
+
+  </div>
+</div>
         </div>
 
 

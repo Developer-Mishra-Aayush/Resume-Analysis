@@ -1,109 +1,140 @@
 {% load static %}
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link
-      rel="stylesheet"
-      href="{% static 'candidate_dashboard/css/style.css' %}"
-    />
-  </head>
-  <body>
-    <div id="screen-candidate" class="screen">
-      <div class="app-shell">
-        <aside class="sidebar" id="cand-sidebar">
-          <div class="sidebar-brand">
-            <div class="sidebar-brand-icon">A</div>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="{% static 'candidate_dashboard/css/style.css' %}" />
+</head>
+
+<body>
+  <div id="screen-candidate" class="screen">
+    <div class="app-shell">
+      <aside class="sidebar" id="cand-sidebar">
+        <div class="sidebar-brand">
+          <div class="sidebar-brand-icon">A</div>
+          <div>
+            <div class="sidebar-brand-name">Resume ATS</div>
+            <div class="sidebar-brand-role">Candidate Portal</div>
+          </div>
+        </div>
+        <nav class="sidebar-nav">
+          <a href="{% url 'candidate_dashboard:candidate_dashboard' %}" class="nav-link">
+            <span class="nav-icon">🏠</span>Dashboard
+          </a>
+
+          <a href="{% url 'candidate_dashboard:upload' %}" class="nav-link active">
+            <span class="nav-icon">📤</span>Upload & Analyze
+          </a>
+
+          <a href="{% url 'candidate_dashboard:my_resumes' %}" class="nav-link">
+            <span class="nav-icon">📋</span>My Resumes
+          </a>
+
+          <a href="{% url 'candidate_dashboard:last_result' %}" class="nav-link">
+            <span class="nav-icon">📊</span>Last Result
+          </a>
+
+          <a href="{% url 'candidate_dashboard:chat_with_resume' %}" class="nav-link">
+            <span class="nav-icon">💬</span>Chat with Resume
+          </a>
+        </nav>
+        <div class="sidebar-footer">
+          <div class="user-pill">
+            <div class="user-avatar" id="cand-av">
+              {{ r.full_name|first }}
+            </div>
             <div>
-              <div class="sidebar-brand-name">Resume ATS</div>
-              <div class="sidebar-brand-role">Candidate Portal</div>
+              <div class="user-name" id="cand-name">{{r.full_name}}</div>
+              <div class="user-email" id="cand-email">{{r.email}}</div>
             </div>
           </div>
-          <nav class="sidebar-nav">
-            <a href="{% url 'candidate_dashboard:candidate_dashboard' %}" class="nav-link">
-              <span class="nav-icon">🏠</span>Dashboard
-            </a>
+          <button class="btn btn-ghost btn-full btn-sm mt-8" onclick="logout()" style="justify-content: flex-start">
+            🚪 Logout
+          </button>
+        </div>
+      </aside>
+      <div class="main-content">
 
-            <a href="{% url 'candidate_dashboard:upload' %}" class="nav-link active">
-              <span class="nav-icon">📤</span>Upload & Analyze
-            </a>
 
-            <a href="{% url 'candidate_dashboard:my_resumes' %}" class="nav-link">
-              <span class="nav-icon">📋</span>My Resumes
-            </a>
 
-            <a href="{% url 'candidate_dashboard:last_result' %}" class="nav-link">
-              <span class="nav-icon">📊</span>Last Result
-            </a>
+        <!-- C: Upload -->
+        <form method="POST" enctype="multipart/form-data"  action="{% url 'candidate_dashboard:upload_resume' %}" >
+        {% csrf_token %}
 
-            <a href="{% url 'candidate_dashboard:chat_with_resume' %}" class="nav-link">
-              <span class="nav-icon">💬</span>Chat with Resume
-            </a>
-          </nav>
-          <div class="sidebar-footer">
-            <div class="user-pill">
-              <div class="user-avatar" id="cand-av">{{ r.full_name|first }} </div>
-              <div>
-                <div class="user-name" id="cand-name">{{r.full_name}}</div>
-                <div class="user-email" id="cand-email">{{r.email}}</div>
+        <div id="c-upload" class="cpage" style="flex-direction: column; flex: 1">
+          
+          <div class="topbar">
+            <div>
+              <div class="topbar-title">Upload Resume</div>
+              <div class="topbar-sub">
+                Upload PDF and select a job to analyze against.
               </div>
             </div>
-            <button
-              class="btn btn-ghost btn-full btn-sm mt-8"
-              onclick="logout()"
-              style="justify-content: flex-start"
-            >
-              🚪 Logout
-            </button>
           </div>
-        </aside>
-        <div class="main-content">
-           <!-- C: Upload -->
-    <div id="c-upload" class="cpage" style="flex-direction:column;flex:1">
-      <div class="topbar"><div><div class="topbar-title">Upload Resume</div><div class="topbar-sub">Upload PDF and select a job to analyze against.</div></div></div>
-      <div class="page">
-        <div class="card" style="max-width:580px">
-          <div id="upload-alert" style="display:none"></div>
-          <div class="mb-16">
-              <div class="section-head">Step 1 — Upload PDF</div>
-              <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()" ondragover="dragOver(event)" ondrop="dropFile(event)" ondragleave="dragLeave(event)">
+
+          <div class="page">
+            <div class="card" style="max-width: 580px">
+
+              <div id="upload-alert" style="display: none"></div>
+
+              <!-- 🔹 Step 1: Upload -->
+              <div class="mb-16">
+                <div class="section-head">Step 1 — Upload PDF</div>
+
+                <div class="upload-zone" onclick="document.getElementById('file-input').click()">
                   <div class="upload-icon">📄</div>
-              <div class="upload-text">Click to browse or drag & drop</div>
-              <div class="upload-sub">PDF only · Max 5MB</div>
-            </div>
-            <input type="file" id="file-input" accept=".pdf" style="display:none" onchange="fileSelected(this)" />
-            <div class="upload-selected" id="file-info" style="display:none">
-              📄 <span id="file-name"></span><span class="text-muted text-sm" id="file-size"></span>
-              <button class="btn btn-ghost btn-sm" style="margin-left:auto" onclick="clearFile()">✕ Remove</button>
-            </div>
-        </div>
-        <div class="sep"></div>
-        <div class="mb-16">
-            <div class="section-head">Step 2 — Select Job Description</div>
-            <div class="form-group">
-              <label>Job Description</label>
-              <select id="jd-select">
-                <option value="">-- Select a JD --</option>
-                <option value="1">Senior Django Developer (Mid-Level)</option>
-                <option value="2">Backend Engineer (Junior)</option>
-                <option value="3">Full Stack Developer (Senior)</option>
-                <option value="4">Data Engineer (Mid-Level)</option>
-              </select>
+                  <div class="upload-text">Click to browse or drag & drop</div>
+                  <div class="upload-sub">PDF only · Max 5MB</div>
+                </div>
+
+                <input type="file" name="resume" id="file-input" style="display:none" required  />
+                <div id="file-info" style="margin-top:10px; display:none;">
+                  📄 <span id="file-name"></span>
+                </div>
+              </div>
+
+              <div class="sep"></div>
+
+              <!-- 🔹 Step 2: Company -->
+              <div class="mb-16">
+                <div class="section-head">Step 2 — Select Company</div>
+                <div class="form-group">
+                  <label>Company</label>
+                  <select name="company" id ="company"required>
+                    <option value="">-- Select Company --</option>
+                    {% for company in companies %}
+                      <option value="{{ company.id }}">{{ company.name }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+
+              <div class="sep"></div>
+
+              <!-- 🔹 Step 3: Job Description -->
+              <div class="mb-16">
+                <div class="section-head">Step 3 — Select Job Description</div>
+                <div class="form-group">
+                  <label>Job Description</label>
+                  <select name="jd" id="jd-select" required>
+                    <option value="">-- Select a JD --</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- 🔹 Submit -->
+              <button type="submit" class="btn btn-primary btn-lg btn-full">
+                Analyze Resume ✦
+              </button>
+
             </div>
           </div>
-          <div id="analyzing-state" style="display:none">
-            <div class="alert alert-info">
-                <span>⏳</span>
-                <div><div class="fw-600">Analyzing your resume...</div><div class="text-sm mt-8">This takes 10–20 seconds. LLM is processing.</div><div class="progress-bar mt-8"><div class="progress-fill"></div></div></div>
-            </div>
-          </div>
-          <button class="btn btn-primary btn-lg btn-full" id="analyze-btn" onclick="startAnalysis()">Analyze Resume ✦</button>
         </div>
-    </div>
-</div>
-        </div>
+      </form>
+
 
 
 
@@ -111,6 +142,55 @@
 
       </div>
     </div>
-    <script src="{% static 'candidate_dashboard/js/script.js' %}"></script>
-  </body>
+  </div>
+  <script src="{% static 'candidate_dashboard/js/script.js' %}"></script>
+  <script>
+    const fileInput = document.getElementById("file-input");
+    const fileInfo = document.getElementById("file-info");
+    const fileName = document.getElementById("file-name");
+
+    fileInput.addEventListener("change", function () {
+      if (this.files.length > 0) {
+        fileName.textContent = this.files[0].name;
+        fileInfo.style.display = "block";
+      }
+    });
+    document.getElementById("company").addEventListener("change", function () {
+    const companyId = this.value;
+    console.log("Selected company ID:", companyId); // Debug log
+    const jdSelect = document.getElementById("jd-select");
+
+    // Reset dropdown
+    jdSelect.innerHTML = '<option value="">Loading...</option>';
+
+    if (!companyId) {
+        jdSelect.innerHTML = '<option value="">-- Select a JD --</option>';
+        return;
+    }
+
+    fetch(`/candidate_dashboard/get-jds/?company_id=${companyId}`)
+        .then(response => response.json())
+        .then(data => {
+            jdSelect.innerHTML = '<option value="">-- Select a JD --</option>';
+
+            if (data.length === 0) {
+                jdSelect.innerHTML = '<option value="">No JDs available</option>';
+                return;
+            }
+
+            data.jds.forEach(jd => {
+                const option = document.createElement("option");
+                option.value = jd.id;
+                option.textContent = jd.title;
+                jdSelect.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error("Error fetching JDs:", error);
+            jdSelect.innerHTML = '<option value="">Error loading JDs</option>';
+        });
+});
+  </script>
+</body>
+
 </html>
